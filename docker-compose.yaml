@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  fastapi:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    volumes:
+      - ./src:/code/src
+    depends_on:
+      - postgres
+    environment:
+      SERVER_ADDRESS: "0.0.0.0:8080"
+      POSTGRES_CONN: "postgres://username:password@postgres:5432/dbname"
+      POSTGRES_USERNAME: "cnrprod1725724693-team-78159"
+      POSTGRES_PASSWORD: "cnrprod1725724693-team-78159"
+      POSTGRES_DATABASE: "cnrprod1725724693-team-78159"
+      POSTGRES_HOST: "rc1b-5xmqy6bq501kls4m.mdb.yandexcloud.net"
+      POSTGRES_PORT: "6432"
+
+
+  postgres:
+    image: postgres:13.9
+    volumes:
+      - ./data:/var/lib/postgresql/data/
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    env_file:
+      - .env
