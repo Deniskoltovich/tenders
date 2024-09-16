@@ -1,0 +1,42 @@
+
+repos:
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        exclude: ^.*\b(migrations)\b.*$
+        args:
+          - --skip-string-normalization
+          - --line-length=79
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+        args:
+          - --max-line-length=79
+          - --max-doc-length=72
+          - --ignore=E203,W503,W291,W292,F401,B010,B008,F821
+          - --exclude=*/alembic/* */tests/*
+
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.910
+    hooks:
+      - id: mypy
+        additional_dependencies: [mypy==0.910, types-six]
+        args:
+          - --warn-redundant-casts
+          - --no-implicit-optional
+          - --ignore-missing-imports
+          - --strict-optional
+
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args:
+          - -m=3
+          - -w=72
+          - --tc
